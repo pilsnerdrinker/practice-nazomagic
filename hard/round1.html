@@ -77,7 +77,8 @@ h1{margin:0 0 8px;font-size:clamp(24px,4vw,38px)}
 .slot.selected{outline:3px solid var(--accent);background:#213655}
 .slot.correct{outline:4px solid var(--good);background:rgba(112,227,160,.18)}
 .slot.wrong{outline:4px solid var(--bad);background:rgba(255,131,147,.16)}
-.slot.answerShown{outline:4px solid var(--warn);background:rgba(255,216,107,.20);border-color:rgba(255,216,107,.95)}
+.slot.answerShown{outline:2px solid rgba(255,216,107,.62);background:rgba(255,216,107,.10);border-color:rgba(255,216,107,.72)}
+.slot.answerSelf{outline:5px solid var(--accent);background:rgba(138,214,255,.24);border-color:rgba(138,214,255,.98);box-shadow:0 0 0 3px rgba(138,214,255,.20),0 4px 14px rgba(0,0,0,.42)}
 .slot.inactive{opacity:1}
 .legend{margin-top:12px;color:var(--muted);font-size:13px;line-height:1.7}
 .qa{margin-top:16px}.qTitle{font-size:18px;font-weight:800;margin:0 0 8px}
@@ -348,7 +349,7 @@ function renderQuestion(){
 function renderSlots(mark){
   const answer = calcAnswerSlot();
   document.querySelectorAll(".slot").forEach(btn=>{
-    btn.classList.remove("selected","correct","wrong","inactive","answerShown");
+    btn.classList.remove("selected","correct","wrong","inactive","answerShown","answerSelf");
     if(btn.dataset.slot === selectedSlot) btn.classList.add("selected");
     // 現在の安置パターンに関係しない選択肢を薄くする
     const safeSlots = q.safe === "13"
@@ -387,12 +388,13 @@ function check(){
 }
 
 
-function setSlotMark(slotId, label){
+function setSlotMark(slotId, label, isSelf=false){
   const btn = document.querySelector(`.slot[data-slot="${slotId}"]`);
   if(!btn) return;
   const mark = btn.querySelector(".mark");
   if(mark) mark.textContent = label;
   btn.classList.add("answerShown");
+  if(isSelf) btn.classList.add("answerSelf");
 }
 
 function resetSlotMarks(){
@@ -428,13 +430,13 @@ function showAnswer(){
   if(q.actualMechanic === "stack"){
     const thSlot = q.safe === "13" ? "A_stack" : "D_stack";
     const dpsSlot = q.safe === "13" ? "C_stack" : "B_stack";
-    setSlotMark(thSlot, "集合\nTH");
-    setSlotMark(dpsSlot, "集合\nDPS");
+    setSlotMark(thSlot, "集合\nTH", TH.has(selectedPos));
+    setSlotMark(dpsSlot, "集合\nDPS", DPS.has(selectedPos));
     setResult(`正解を表示中：<b>集合</b> / 安置${q.safe} / <b>TH</b>と<b>DPS</b>の集合位置を表示しています。`, "good");
   } else {
     const map = spreadMap[q.safe === "13" ? "safe13" : "safe24"];
     for(const pos of POSITIONS){
-      setSlotMark(map[pos], pos);
+      setSlotMark(map[pos], pos, pos === selectedPos);
     }
     setResult(`正解を表示中：<b>散会</b> / 安置${q.safe} / 各ロールの散会位置を表示しています。`, "good");
   }
