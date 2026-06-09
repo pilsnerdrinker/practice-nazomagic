@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>真偽AoE判断 Round 2 ハード</title>
+<title>P1なぞなぞマジック（真偽AoE判断） Round 2 ハード</title>
 <style>
 :root{
   --panel:#161f31; --panel2:#1c2740; --text:#eef4ff; --muted:#aeb9d3;
@@ -84,7 +84,7 @@ details{margin-top:14px} summary{cursor:pointer;font-weight:800}
 </head>
 <body>
 <div class="wrap">
-  <h1>真偽AoE判断 Round 2 ハード</h1>
+  <h1>P1なぞなぞマジック（真偽AoE判断） Round 2 ハード</h1>
   <div class="sub">
     Round 2：<b>雷 + 氷床</b> の真偽判断後、<b>最終安地の点</b>を選ぶ版。<br>
     上の赤い輪は雷、下の青い輪は氷床。球が<b>？なら逆</b>。<br>
@@ -148,9 +148,10 @@ details{margin-top:14px} summary{cursor:pointer;font-weight:800}
         </div>
       </div>
 
-      <div class="btnGrid">
+      <div class="btnGrid" style="grid-template-columns:1fr 1fr 1fr">
         <button class="primary" id="checkBtn">判定</button>
-        <button id="nextBtn">次の問題</button>
+        <button id="showAnswerBtn">正解を表示</button>
+        <button id="nextBtn">別の問題に変える</button>
       </div>
       <div class="result" id="result">安全だと思う場所をクリックして判定してね。</div>
     </section>
@@ -186,7 +187,7 @@ details{margin-top:14px} summary{cursor:pointer;font-weight:800}
 
       <details>
         <summary>権利表記</summary>
-        <div class="mini">このツールはFINAL FANTASY XIVの非公式ファンメイド練習ツールです。FINAL FANTASY XIV © SQUARE ENIX</div>
+        <div class="mini">このアプリはFINAL FANTASY XIVの非公式ファンメイド練習アプリです。FINAL FANTASY XIV © SQUARE ENIX</div>
       </details>
     </aside>
   </div>
@@ -308,6 +309,25 @@ function check(){
   }
 }
 
+
+function findRepresentativeSafePoint(){
+  for(let y=12; y<=88; y+=2){
+    for(let x=12; x<=88; x+=2){
+      const dx=x-50, dy=y-50;
+      if(dx*dx + dy*dy > 48*48) continue;
+      const pt = {x, y};
+      if(pointInLightningSafe(pt) && pointInIceSafe(pt)) return pt;
+    }
+  }
+  return {x:50, y:50};
+}
+
+function showAnswer(){
+  selectedPoint = findRepresentativeSafePoint();
+  renderSelection(true);
+  setResult('正解を表示中：表示された位置を含む、<b>実際の雷安地かつ氷安地</b>が正解です。', 'good');
+}
+
 function retry(){
   selectedPoint = null;
   renderSelection(false);
@@ -333,6 +353,7 @@ document.querySelector('.board').addEventListener('click', (e)=>{
   renderSelection(false);
 });
 document.getElementById('checkBtn').onclick = check;
+document.getElementById('showAnswerBtn').onclick = showAnswer;
 document.getElementById('nextBtn').onclick = newQuestion;
 document.getElementById('retryBtn').onclick = retry;
 document.getElementById('resetBtn').onclick = ()=>{ stats = {total:0, ok:0, ng:0, misses:[]}; saveStats(); renderStats(); };
