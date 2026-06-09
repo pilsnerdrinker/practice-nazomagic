@@ -42,7 +42,7 @@ h1{margin:0 0 8px;font-size:clamp(24px,4vw,38px)}
 .dividerH{top:50%;left:7%;right:7%;height:2px;transform:translateY(-50%)}
 .iceZone{position:absolute;background:rgba(255,111,82,.50);z-index:1}
 .qA{left:0;top:0;width:50%;height:50%}.qB{right:0;top:0;width:50%;height:50%}.qC{right:0;bottom:0;width:50%;height:50%}.qD{left:0;bottom:0;width:50%;height:50%}
-.quadLabel{position:absolute;font-size:30px;font-weight:900;color:rgba(255,255,255,.9);text-shadow:0 0 12px rgba(255,255,255,.15);z-index:7}
+.quadLabel{display:none}
 .l1{left:27%;top:22%}.l2{right:22%;top:22%}.l3{right:24%;bottom:19%}.l4{left:27%;bottom:19%}
 .markerLabel{position:absolute;font-size:18px;font-weight:900;color:#ffe9a9;text-shadow:0 0 10px rgba(255,214,95,.25);z-index:8}
 .mA{left:50%;top:12%;transform:translateX(-50%)}.mB{right:12%;top:50%;transform:translateY(-50%)}.mC{left:50%;bottom:12%;transform:translateX(-50%)}.mD{left:12%;top:50%;transform:translateY(-50%)}
@@ -69,12 +69,15 @@ h1{margin:0 0 8px;font-size:clamp(24px,4vw,38px)}
 .slot:hover{transform:translate(-50%,-50%);filter:brightness(1.12)}
 .slot .side{font-size:9px;color:var(--muted);line-height:1}
 .slot .mark{font-size:14px;line-height:1.05}
-.slot.stack{width:48px;height:48px;border-radius:50%;border-color:rgba(255,213,107,.95);background:rgba(14,21,34,.96)}
+.slot:not(.stack) .mark{display:block}
+.slot.answerShown .mark{display:block}
+.slot.stack{width:56px;height:56px;border-radius:50%;border-color:rgba(255,213,107,.95);background:rgba(14,21,34,.96)}
 .slot.stack .mark{font-size:13px;color:#ffe8a8}
 .slot.stack .side{color:#ffd56b}
 .slot.selected{outline:3px solid var(--accent);background:#213655}
 .slot.correct{outline:4px solid var(--good);background:rgba(112,227,160,.18)}
 .slot.wrong{outline:4px solid var(--bad);background:rgba(255,131,147,.16)}
+.slot.answerShown{outline:4px solid var(--warn);background:rgba(255,216,107,.20);border-color:rgba(255,216,107,.95)}
 .slot.inactive{opacity:1}
 .legend{margin-top:12px;color:var(--muted);font-size:13px;line-height:1.7}
 .qa{margin-top:16px}.qTitle{font-size:18px;font-weight:800;margin:0 0 8px}
@@ -148,28 +151,28 @@ details{margin-top:14px} summary{cursor:pointer;font-weight:800}
             </div>
           </div>
           <!-- 各象限5個：散会13側 内/外、散会24側 内/外、集合 -->
-          <button class="slot" data-slot="A13_inner" style="left:46.4%;top:22.8%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="A13_outer" style="left:28.0%;top:23.0%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="A24_inner" style="left:53.7%;top:22.8%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="A24_outer" style="left:72.0%;top:23.0%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="A13_inner" style="left:46.4%;top:22.8%"><span class="mark">散1</span></button>
+          <button class="slot" data-slot="A13_outer" style="left:28.0%;top:23.0%"><span class="mark">散2</span></button>
+          <button class="slot" data-slot="A24_inner" style="left:53.7%;top:22.8%"><span class="mark">散3</span></button>
+          <button class="slot" data-slot="A24_outer" style="left:72.0%;top:23.0%"><span class="mark">散4</span></button>
           <button class="slot stack" data-slot="A_stack" style="left:45.4%;top:44.5%"><span class="mark">集合</span></button>
 
-          <button class="slot" data-slot="B13_inner" style="left:72.0%;top:44.6%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="B13_outer" style="left:95.2%;top:43.1%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="B24_inner" style="left:72.0%;top:54.8%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="B24_outer" style="left:95.2%;top:55.5%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="B13_inner" style="left:72.0%;top:44.6%"><span class="mark">散5</span></button>
+          <button class="slot" data-slot="B13_outer" style="left:95.2%;top:43.1%"><span class="mark">散6</span></button>
+          <button class="slot" data-slot="B24_inner" style="left:72.0%;top:54.8%"><span class="mark">散7</span></button>
+          <button class="slot" data-slot="B24_outer" style="left:95.2%;top:55.5%"><span class="mark">散8</span></button>
           <button class="slot stack" data-slot="B_stack" style="left:55.3%;top:44.5%"><span class="mark">集合</span></button>
 
-          <button class="slot" data-slot="C13_inner" style="left:53.2%;top:76.8%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="C13_outer" style="left:72.0%;top:76.8%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="C24_inner" style="left:45.6%;top:76.8%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="C24_outer" style="left:28.0%;top:76.8%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="C13_inner" style="left:53.2%;top:76.8%"><span class="mark">散9</span></button>
+          <button class="slot" data-slot="C13_outer" style="left:72.0%;top:76.8%"><span class="mark">散10</span></button>
+          <button class="slot" data-slot="C24_inner" style="left:45.6%;top:76.8%"><span class="mark">散11</span></button>
+          <button class="slot" data-slot="C24_outer" style="left:28.0%;top:76.8%"><span class="mark">散12</span></button>
           <button class="slot stack" data-slot="C_stack" style="left:55.4%;top:55.8%"><span class="mark">集合</span></button>
 
-          <button class="slot" data-slot="D13_inner" style="left:27.8%;top:55.8%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="D13_outer" style="left:4.8%;top:55.2%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="D24_inner" style="left:27.8%;top:45.0%"><span class="mark">散会</span></button>
-          <button class="slot" data-slot="D24_outer" style="left:4.8%;top:44.7%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="D13_inner" style="left:27.8%;top:55.8%"><span class="mark">散13</span></button>
+          <button class="slot" data-slot="D13_outer" style="left:4.8%;top:55.2%"><span class="mark">散14</span></button>
+          <button class="slot" data-slot="D24_inner" style="left:27.8%;top:45.0%"><span class="mark">散15</span></button>
+          <button class="slot" data-slot="D24_outer" style="left:4.8%;top:44.7%"><span class="mark">散16</span></button>
           <button class="slot stack" data-slot="D_stack" style="left:45.4%;top:55.8%"><span class="mark">集合</span></button>
         </div>
 
@@ -245,17 +248,30 @@ const ICE_PATTERNS = [
 ];
 
 const spreadMap = {
+  // 散会の正解候補：
+  // MT: 散1 or 散11, ST: 散15 or 散13, H2: 散14 or 散16, H1: 散2 or 散12
+  // D1: 散3 or 散9, D2: 散5 or 散7, D3: 散4 or 散10, D4: 散6 or 散8
+  // q.safe === "13" のときは、今回の例どおり
+  // MT/H1/D1/D3 = 散1/2/9/10、ST/H2/D2/D4 = 散15/16/7/8。
   safe13: {
-    MT:"A13_inner", H1:"A13_outer",
-    ST:"D13_inner", H2:"D13_outer",
-    D2:"B13_inner", D4:"B13_outer",
-    D1:"C13_inner", D3:"C13_outer"
+    MT:"A13_inner",  // 散1
+    H1:"A13_outer",  // 散2
+    D1:"C13_inner",  // 散9
+    D3:"C13_outer",  // 散10
+    ST:"D24_inner",  // 散15
+    H2:"D24_outer",  // 散16
+    D2:"B24_inner",  // 散7
+    D4:"B24_outer"   // 散8
   },
   safe24: {
-    D1:"A24_inner", D3:"A24_outer",
-    D2:"B24_inner", D4:"B24_outer",
-    ST:"D24_inner", H2:"D24_outer",
-    MT:"C24_inner", H1:"C24_outer"
+    MT:"C24_inner",  // 散11
+    H1:"C24_outer",  // 散12
+    D1:"A24_inner",  // 散3
+    D3:"A24_outer",  // 散4
+    ST:"D13_inner",  // 散13
+    H2:"D13_outer",  // 散14
+    D2:"B13_inner",  // 散5
+    D4:"B13_outer"   // 散6
   }
 };
 
@@ -299,6 +315,7 @@ function newQuestion(){
   const safe = safeFromIce(ice.value, bottomFake);
   q = {shownMechanic, topFake, ice, bottomFake, actualMechanic, safe};
   selectedSlot = null;
+  resetSlotMarks();
   renderAll();
   setResult("ポジションと立ち位置を選んで判定してね。", "");
 }
@@ -331,7 +348,7 @@ function renderQuestion(){
 function renderSlots(mark){
   const answer = calcAnswerSlot();
   document.querySelectorAll(".slot").forEach(btn=>{
-    btn.classList.remove("selected","correct","wrong","inactive");
+    btn.classList.remove("selected","correct","wrong","inactive","answerShown");
     if(btn.dataset.slot === selectedSlot) btn.classList.add("selected");
     // 現在の安置パターンに関係しない選択肢を薄くする
     const safeSlots = q.safe === "13"
@@ -370,16 +387,62 @@ function check(){
 }
 
 
+function setSlotMark(slotId, label){
+  const btn = document.querySelector(`.slot[data-slot="${slotId}"]`);
+  if(!btn) return;
+  const mark = btn.querySelector(".mark");
+  if(mark) mark.textContent = label;
+  btn.classList.add("answerShown");
+}
+
+function resetSlotMarks(){
+  const debugSpreadLabels = {
+    A13_inner:"散1",
+    A13_outer:"散2",
+    A24_inner:"散3",
+    A24_outer:"散4",
+    B13_inner:"散5",
+    B13_outer:"散6",
+    B24_inner:"散7",
+    B24_outer:"散8",
+    C13_inner:"散9",
+    C13_outer:"散10",
+    C24_inner:"散11",
+    C24_outer:"散12",
+    D13_inner:"散13",
+    D13_outer:"散14",
+    D24_inner:"散15",
+    D24_outer:"散16"
+  };
+  document.querySelectorAll(".slot").forEach(btn=>{
+    const mark = btn.querySelector(".mark");
+    if(!mark) return;
+    mark.textContent = btn.classList.contains("stack") ? "集合" : (debugSpreadLabels[btn.dataset.slot] || "散会");
+  });
+}
+
 function showAnswer(){
-  const answer = calcAnswerSlot();
-  selectedSlot = answer;
-  renderSlots(true);
-  const msg = `正解：<b>${slotLabels[answer]}</b>（${actualMechLabel(q.actualMechanic)} / 安置${q.safe}）`;
-  setResult(msg, "good");
+  resetSlotMarks();
+  renderSlots(false);
+
+  if(q.actualMechanic === "stack"){
+    const thSlot = q.safe === "13" ? "A_stack" : "D_stack";
+    const dpsSlot = q.safe === "13" ? "C_stack" : "B_stack";
+    setSlotMark(thSlot, "集合\nTH");
+    setSlotMark(dpsSlot, "集合\nDPS");
+    setResult(`正解を表示中：<b>集合</b> / 安置${q.safe} / <b>TH</b>と<b>DPS</b>の集合位置を表示しています。`, "good");
+  } else {
+    const map = spreadMap[q.safe === "13" ? "safe13" : "safe24"];
+    for(const pos of POSITIONS){
+      setSlotMark(map[pos], pos);
+    }
+    setResult(`正解を表示中：<b>散会</b> / 安置${q.safe} / 各ロールの散会位置を表示しています。`, "good");
+  }
 }
 
 function retry(){
   selectedSlot = null;
+  resetSlotMarks();
   renderSlots(false);
   setResult("同じ問題です。もう一度選んでね。", "");
 }
@@ -394,7 +457,7 @@ function renderStats(){
 }
 
 document.querySelectorAll(".slot").forEach(btn=>{
-  btn.addEventListener("click", ()=>{ selectedSlot = btn.dataset.slot; renderSlots(false); });
+  btn.addEventListener("click", ()=>{ selectedSlot = btn.dataset.slot; resetSlotMarks(); renderSlots(false); });
 });
 document.getElementById("checkBtn").onclick = check;
 document.getElementById("showAnswerBtn").onclick = showAnswer;
