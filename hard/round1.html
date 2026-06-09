@@ -46,10 +46,10 @@ h1{margin:0 0 8px;font-size:clamp(24px,4vw,38px)}
 .l1{left:27%;top:22%}.l2{right:22%;top:22%}.l3{right:24%;bottom:19%}.l4{left:27%;bottom:19%}
 .markerLabel{position:absolute;font-size:18px;font-weight:900;color:#ffe9a9;text-shadow:0 0 10px rgba(255,214,95,.25);z-index:8}
 .mA{left:50%;top:12%;transform:translateX(-50%)}.mB{right:12%;top:50%;transform:translateY(-50%)}.mC{left:50%;bottom:12%;transform:translateX(-50%)}.mD{left:12%;top:50%;transform:translateY(-50%)}
-.boss{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);z-index:12}
+.boss{display:none}
 .bossCore{width:36px;height:36px;border-radius:50%;background:radial-gradient(circle at 35% 35%, #fff3aa, #f8bb47 55%, #8f5b14 100%);box-shadow:0 0 18px rgba(255,197,82,.4)}
-.ringGroup{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;z-index:13}
-.ringTop{top:33%}.ringBottom{top:57%}
+.ringGroup{position:absolute;left:50%;transform:translateX(-50%);display:flex;align-items:center;gap:10px;z-index:30;pointer-events:none}
+.ringTop{top:33%}.ringBottom{top:59%}
 .ringLabel{font-size:14px;font-weight:800;letter-spacing:.03em;color:#d9e5ff;min-width:52px}
 .ring{width:122px;height:38px;border-radius:999px;display:flex;align-items:center;justify-content:center;position:relative;font-weight:900;box-shadow:inset 0 0 0 2px rgba(255,255,255,.16)}
 .ring.red{border:3px solid rgba(255,110,110,.88);background:rgba(255,80,80,.12)}
@@ -61,20 +61,21 @@ h1{margin:0 0 8px;font-size:clamp(24px,4vw,38px)}
 .slot{
   position:absolute; z-index:20; width:40px; height:40px; border-radius:11px;
   transform:translate(-50%,-50%);
-  border:2px solid rgba(255,255,255,.35); background:rgba(14,21,34,.82); color:#eef4ff;
+  border:2px solid rgba(255,255,255,.88); background:rgba(14,21,34,.96); color:#eef4ff;
+  box-shadow:0 4px 12px rgba(0,0,0,.42);
   display:flex; flex-direction:column; align-items:center; justify-content:center;
   font-weight:900; cursor:pointer; user-select:none; transition:.12s transform,.12s filter,.12s background;
 }
 .slot:hover{transform:translate(-50%,-50%);filter:brightness(1.12)}
 .slot .side{font-size:9px;color:var(--muted);line-height:1}
 .slot .mark{font-size:14px;line-height:1.05}
-.slot.stack{width:52px;height:42px;border-color:rgba(255,213,107,.72);background:rgba(255,213,107,.10)}
+.slot.stack{width:48px;height:48px;border-radius:50%;border-color:rgba(255,213,107,.95);background:rgba(14,21,34,.96)}
 .slot.stack .mark{font-size:13px;color:#ffe8a8}
 .slot.stack .side{color:#ffd56b}
 .slot.selected{outline:3px solid var(--accent);background:#213655}
 .slot.correct{outline:4px solid var(--good);background:rgba(112,227,160,.18)}
 .slot.wrong{outline:4px solid var(--bad);background:rgba(255,131,147,.16)}
-.slot.inactive{opacity:.35}
+.slot.inactive{opacity:1}
 .legend{margin-top:12px;color:var(--muted);font-size:13px;line-height:1.7}
 .qa{margin-top:16px}.qTitle{font-size:18px;font-weight:800;margin:0 0 8px}
 .btnGrid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -136,7 +137,6 @@ details{margin-top:14px} summary{cursor:pointer;font-weight:800}
           <div class="boss"><div class="bossCore"></div></div>
 
           <div class="ringGroup ringTop">
-            <div class="ringLabel">上</div>
             <div class="ring red">
               <div class="ball red" id="topBall"></div>
               <div class="ringText" id="topShown">頭割り</div>
@@ -144,41 +144,40 @@ details{margin-top:14px} summary{cursor:pointer;font-weight:800}
           </div>
 
           <div class="ringGroup ringBottom">
-            <div class="ringLabel">下</div>
             <div class="ring blue">
               <div class="ball blue" id="bottomBall"></div>
               <div class="ringText">氷床</div>
             </div>
           </div>
           <!-- 各象限5個：散会13側 内/外、散会24側 内/外、集合 -->
-          <button class="slot" data-slot="A13_inner" style="left:46.4%;top:22.8%"><span class="mark">A</span><span class="side">13内</span></button>
-          <button class="slot" data-slot="A13_outer" style="left:46.5%;top:2.8%"><span class="mark">A</span><span class="side">13外</span></button>
-          <button class="slot" data-slot="A24_inner" style="left:53.7%;top:22.8%"><span class="mark">A</span><span class="side">24内</span></button>
-          <button class="slot" data-slot="A24_outer" style="left:53.7%;top:2.8%"><span class="mark">A</span><span class="side">24外</span></button>
-          <button class="slot stack" data-slot="A_stack" style="left:45.4%;top:43.0%"><span class="mark">1集合</span><span class="side">内</span></button>
+          <button class="slot" data-slot="A13_inner" style="left:46.4%;top:22.8%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="A13_outer" style="left:28.0%;top:23.0%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="A24_inner" style="left:53.7%;top:22.8%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="A24_outer" style="left:72.0%;top:23.0%"><span class="mark">散会</span></button>
+          <button class="slot stack" data-slot="A_stack" style="left:45.4%;top:44.5%"><span class="mark">集合</span></button>
 
-          <button class="slot" data-slot="B13_inner" style="left:69.8%;top:44.6%"><span class="mark">B</span><span class="side">13内</span></button>
-          <button class="slot" data-slot="B13_outer" style="left:95.2%;top:43.1%"><span class="mark">B</span><span class="side">13外</span></button>
-          <button class="slot" data-slot="B24_inner" style="left:69.8%;top:54.8%"><span class="mark">B</span><span class="side">24内</span></button>
-          <button class="slot" data-slot="B24_outer" style="left:95.2%;top:55.5%"><span class="mark">B</span><span class="side">24外</span></button>
-          <button class="slot stack" data-slot="B_stack" style="left:55.3%;top:43.0%"><span class="mark">2集合</span><span class="side">内</span></button>
+          <button class="slot" data-slot="B13_inner" style="left:72.0%;top:44.6%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="B13_outer" style="left:95.2%;top:43.1%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="B24_inner" style="left:72.0%;top:54.8%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="B24_outer" style="left:95.2%;top:55.5%"><span class="mark">散会</span></button>
+          <button class="slot stack" data-slot="B_stack" style="left:55.3%;top:44.5%"><span class="mark">集合</span></button>
 
-          <button class="slot" data-slot="C13_inner" style="left:53.2%;top:76.8%"><span class="mark">C</span><span class="side">13内</span></button>
-          <button class="slot" data-slot="C13_outer" style="left:53.0%;top:96.7%"><span class="mark">C</span><span class="side">13外</span></button>
-          <button class="slot" data-slot="C24_inner" style="left:45.6%;top:76.8%"><span class="mark">C</span><span class="side">24内</span></button>
-          <button class="slot" data-slot="C24_outer" style="left:45.0%;top:96.7%"><span class="mark">C</span><span class="side">24外</span></button>
-          <button class="slot stack" data-slot="C_stack" style="left:55.4%;top:55.8%"><span class="mark">3集合</span><span class="side">内</span></button>
+          <button class="slot" data-slot="C13_inner" style="left:53.2%;top:76.8%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="C13_outer" style="left:72.0%;top:76.8%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="C24_inner" style="left:45.6%;top:76.8%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="C24_outer" style="left:28.0%;top:76.8%"><span class="mark">散会</span></button>
+          <button class="slot stack" data-slot="C_stack" style="left:55.4%;top:55.8%"><span class="mark">集合</span></button>
 
-          <button class="slot" data-slot="D13_inner" style="left:27.8%;top:55.8%"><span class="mark">D</span><span class="side">13内</span></button>
-          <button class="slot" data-slot="D13_outer" style="left:4.8%;top:55.2%"><span class="mark">D</span><span class="side">13外</span></button>
-          <button class="slot" data-slot="D24_inner" style="left:27.8%;top:45.0%"><span class="mark">D</span><span class="side">24内</span></button>
-          <button class="slot" data-slot="D24_outer" style="left:4.8%;top:44.7%"><span class="mark">D</span><span class="side">24外</span></button>
-          <button class="slot stack" data-slot="D_stack" style="left:45.4%;top:55.8%"><span class="mark">4集合</span><span class="side">内</span></button>
+          <button class="slot" data-slot="D13_inner" style="left:27.8%;top:55.8%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="D13_outer" style="left:4.8%;top:55.2%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="D24_inner" style="left:27.8%;top:45.0%"><span class="mark">散会</span></button>
+          <button class="slot" data-slot="D24_outer" style="left:4.8%;top:44.7%"><span class="mark">散会</span></button>
+          <button class="slot stack" data-slot="D_stack" style="left:45.4%;top:55.8%"><span class="mark">集合</span></button>
         </div>
 
         <div class="legend">
           赤く塗られている床が、<b>見えている氷予兆</b>。下の輪が？なら予兆側が本物の安置。<br>
-          各象限に5個ずつ（散会13側 内/外、散会24側 内/外、集合）。集合は <b>THが西側内、DPSが東側内</b>。
+          各象限の候補は、表示上は<b>散会</b>または<b>集合</b>だけにしています。集合は <b>THが西側内、DPSが東側内</b>。
         </div>
       </div>
 
@@ -218,7 +217,7 @@ details{margin-top:14px} summary{cursor:pointer;font-weight:800}
         <summary>キーボード操作</summary>
         <div class="mini">
           ポジション：<span class="kbd">M</span> MT / <span class="kbd">T</span> ST / <span class="kbd">1</span> H1 / <span class="kbd">2</span> H2 / <span class="kbd">3</span> D1 / <span class="kbd">4</span> D2 / <span class="kbd">5</span> D3 / <span class="kbd">6</span> D4<br>
-          立ち位置：<span class="kbd">Q/W</span> A内外、<span class="kbd">E/R</span> B内外、<span class="kbd">A/S</span> D内外、<span class="kbd">D/F</span> C内外、<span class="kbd">G/H</span> 集合（TH側/DPS側）<br>
+          立ち位置：各ボタンは表示上 <span class="kbd">散会</span> / <span class="kbd">集合</span> のみ<br>
           <span class="kbd">Enter</span> 判定 / <span class="kbd">Space</span> 次の問題 / <span class="kbd">Z</span> 同じ問題をやり直す
         </div>
       </details>
@@ -262,10 +261,10 @@ const spreadMap = {
 };
 
 const slotLabels = {
-  A13_inner:"A 13側 内", A13_outer:"A 13側 外", A24_inner:"A 24側 内", A24_outer:"A 24側 外", A_stack:"1集合",
-  B13_inner:"B 13側 内", B13_outer:"B 13側 外", B24_inner:"B 24側 内", B24_outer:"B 24側 外", B_stack:"2集合",
-  C13_inner:"C 13側 内", C13_outer:"C 13側 外", C24_inner:"C 24側 内", C24_outer:"C 24側 外", C_stack:"3集合",
-  D13_inner:"D 13側 内", D13_outer:"D 13側 外", D24_inner:"D 24側 内", D24_outer:"D 24側 外", D_stack:"4集合"
+  A13_inner:"散会", A13_outer:"散会", A24_inner:"散会", A24_outer:"散会", A_stack:"集合",
+  B13_inner:"散会", B13_outer:"散会", B24_inner:"散会", B24_outer:"散会", B_stack:"集合",
+  C13_inner:"散会", C13_outer:"散会", C24_inner:"散会", C24_outer:"散会", C_stack:"集合",
+  D13_inner:"散会", D13_outer:"散会", D24_inner:"散会", D24_outer:"散会", D_stack:"集合"
 };
 
 let q = null;
